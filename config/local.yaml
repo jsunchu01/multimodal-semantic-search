@@ -1,0 +1,80 @@
+# Explicit all-local config -- identical to default.yaml today, kept as a
+# separate named file so "all local" and "all API" are both one flag away
+# (`MMSS_CONFIG_FILE=config/local.yaml`) once default.yaml starts drifting
+# (e.g. if you tune retrieval/guardrail params differently per experiment).
+
+parser:
+  primary: docling
+  fallback: unstructured
+
+chunking:
+  max_characters: 2000
+
+embedder:
+  provider: local_bge
+  params:
+    model_name: BAAI/bge-small-en-v1.5
+    device: cpu
+
+vision:
+  provider: local_vlm
+  params:
+    model: qwen2.5vl:3b
+    host: http://localhost:11434
+    structured: false
+
+generator:
+  provider: local_llm
+  params:
+    model: qwen2.5:1.5b
+    host: http://localhost:11434
+
+# Optional escalation target for complex queries (QueryAnalyzer.is_complex) --
+# unset here means every query uses `generator` above regardless of
+# complexity. Uncomment + set an API key in .env to escalate hard questions
+# to a paid API while keeping routine queries free/local, e.g.:
+# generator_complex:
+#   provider: api_llm
+#   params:
+#     vendor: openai
+#     model_name: gpt-4o-mini
+
+reranker:
+  provider: local_cross_encoder
+  params:
+    model_name: cross-encoder/ms-marco-MiniLM-L-6-v2
+
+vector_store:
+  provider: pgvector
+  params:
+    dsn: postgresql:///mmss_dev
+    table_name: mmss_chunks
+
+retrieval:
+  top_k_dense: 20
+  top_k_bm25: 20
+  rrf_k: 60
+  final_top_k: 10
+  rerank_candidate_multiplier: 3
+
+guardrail:
+  numeric_tolerance: 0.01
+  on_violation: flag
+  min_grounding_ratio: 0.8
+
+pot:
+  enabled: true
+  timeout_seconds: 5.0
+
+pii:
+  enabled: true
+  enable_financial_patterns: true
+
+# RagasEvaluator's judge is always an API call (gpt-4o-mini) even in this
+# all-local config -- ragas's current API has no local-LLM judge path built
+# in, and a personal-project eval run is infrequent/small enough that the
+# cost is negligible either way.
+eval:
+  judge_model: gpt-4o-mini
+  regression_threshold: 0.05
+  history_path: evals/history.json

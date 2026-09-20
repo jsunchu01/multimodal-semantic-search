@@ -1,0 +1,74 @@
+# Explicit all-API config. Vendor names below are placeholders -- swap them
+# for whichever APIs you actually pick; nothing else in the pipeline needs to
+# change since every slot is registered behind the same provider interface.
+
+parser:
+  primary: docling
+  fallback: unstructured
+
+chunking:
+  max_characters: 2000
+
+embedder:
+  provider: api_embedder
+  params:
+    vendor: openai            # placeholder -- swap when you pick an API vendor
+    model_name: text-embedding-3-small
+
+vision:
+  provider: api_vlm
+  params:
+    vendor: openai            # both "openai" and "together" are implemented;
+    model_name: gpt-4o        # for together: vendor: together, model_name: Qwen/Qwen2-VL-72B-Instruct (or similar)
+    structured: false
+
+generator:
+  provider: api_llm
+  params:
+    vendor: openai            # placeholder
+    model_name: gpt-4o-mini
+
+# Optional escalation target for complex queries (QueryAnalyzer.is_complex) --
+# unset means every query uses `generator` above regardless of complexity.
+# generator_complex:
+#   provider: api_llm
+#   params:
+#     vendor: openai
+#     model_name: gpt-4o
+
+reranker:
+  provider: api_reranker
+  params:
+    vendor: cohere            # placeholder
+    model_name: rerank-english-v3.0
+
+vector_store:
+  provider: pgvector
+  params:
+    dsn: postgresql:///mmss_dev
+    table_name: mmss_chunks_api
+
+retrieval:
+  top_k_dense: 20
+  top_k_bm25: 20
+  rrf_k: 60
+  final_top_k: 10
+  rerank_candidate_multiplier: 3
+
+guardrail:
+  numeric_tolerance: 0.01
+  on_violation: flag
+  min_grounding_ratio: 0.8
+
+pot:
+  enabled: true
+  timeout_seconds: 5.0
+
+pii:
+  enabled: true
+  enable_financial_patterns: true
+
+eval:
+  judge_model: gpt-4o-mini
+  regression_threshold: 0.05
+  history_path: evals/history.json

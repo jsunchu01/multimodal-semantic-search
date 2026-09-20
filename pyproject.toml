@@ -1,0 +1,77 @@
+[project]
+name = "multimodal-semantic-search"
+version = "0.1.0"
+description = "Personal multimodal RAG system for document analysis (financial filings, research papers)"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2",
+    "pydantic-settings>=2",
+    "pyyaml",
+    "python-dotenv",
+    "typer",
+    "rich",
+    "pymupdf",
+    "rank-bm25",
+    "numpy",
+    "psycopg[binary]",
+    "pgvector",
+    "beautifulsoup4",
+]
+
+[project.optional-dependencies]
+# Parsing has no local/API split -- Docling (primary) and Unstructured (fallback)
+# are both local, ML-model-backed libraries. Both are needed for M1.
+parsing = [
+    "docling",
+    "unstructured[all-docs]",
+]
+local = [
+    "sentence-transformers",
+    "torch",
+    "ollama",
+]
+api = [
+    "openai",
+    "anthropic",
+    "google-genai",
+    "cohere",
+    "voyageai",
+]
+eval = [
+    "ragas",
+    "openai",
+]
+ui = [
+    "streamlit",
+]
+guardrails = [
+    # PII redaction. Presidio also needs a spaCy model, a separate step its
+    # own install docs require -- run this yourself, no CLI execution here:
+    #   python -m spacy download en_core_web_lg
+    "presidio-analyzer",
+    "presidio-anonymizer",
+]
+api-server = [
+    "fastapi",
+    "uvicorn",
+]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+]
+
+[project.scripts]
+mmss = "mmss.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
