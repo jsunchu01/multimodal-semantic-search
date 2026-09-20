@@ -183,4 +183,5 @@ pytest
 
 ## References
 
-This personal project is inspired by [Mattral/RAG-Multimodal-Financial-Doc-Analysis-and-Recall](https://github.com/Mattral/RAG-Multimodal-Financial-Doc-Analysis-and-Recall).
+[mixpeek/awesome-multimodal-search](https://github.com/mixpeek/awesome-multimodal-search).
+[Mattral/RAG-Multimodal-Financial-Doc-Analysis-and-Recall](https://github.com/Mattral/RAG-Multimodal-Financial-Doc-Analysis-and-Recall).
