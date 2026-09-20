@@ -14,6 +14,11 @@ Financial filings and research papers share two properties that make naive RAG u
 - **Verify the numbers** — every figure in the answer is checked against the retrieved source text within a configurable tolerance; arithmetic is done by a sandboxed executor, not by the LLM.
 - **Run on your own machine** — default setup is fully local (Ollama, sentence-transformers, Postgres). Every model-backed component can be swapped for a hosted API through config alone.
 
+## UI Interface
+
+<!-- Add your screenshot at docs/images/ui.png (or change the path below). -->
+![Document Search UI](docs/images/ui.png)
+
 ## Components
 
 | Component | What it does | Default (local) | API alternative |
@@ -33,11 +38,6 @@ Financial filings and research papers share two properties that make naive RAG u
 | **PII redactor** | Redacts personal data and financial identifiers in the answer text | Presidio if installed, regex fallback otherwise | — |
 | **Evaluator** | Recall@k, MRR, groundedness rate, and optionally RAGAS metrics over a custom dataset, compared against the previous run | built-in / RAGAS | — |
 | **UI** | Streamlit app: upload, ask, verify | Streamlit | — |
-
-## UI Interface
-
-<!-- Add your screenshot at docs/images/ui.png (or change the path below). -->
-![Document Search UI](docs/images/ui.png)
 
 ## Architecture
 
