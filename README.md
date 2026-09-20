@@ -17,7 +17,8 @@ Financial filings and research papers share two properties that make naive RAG u
 ## UI Interface
 
 <!-- Add your screenshot at docs/images/ui.png (or change the path below). -->
-![Document Search UI](docs/images/ui.png)
+![Document Search UI](docs/images/ui_part1.png)
+(docs/images/ui_part2.png)
 
 ## Components
 
