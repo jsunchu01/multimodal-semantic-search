@@ -1,0 +1,14 @@
+# Streamlit theme for the mmss UI (M10). Verified against Streamlit's
+# current config.toml theme reference before writing this -- these are real
+# keys, not guessed. Setting an explicit theme (rather than leaving it
+# unset) means colors are consistent regardless of the viewer's OS light/
+# dark preference, which keeps this simple -- one deliberate look, not two
+# variants to maintain.
+
+[theme]
+base = "light"
+primaryColor = "#1768AC"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#D9EAF7"
+textColor = "#12263A"
+font = "sans-serif"
